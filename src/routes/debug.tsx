@@ -133,7 +133,9 @@ function DebugPage() {
                   <tr className="border-b text-left text-muted-foreground">
                     <th className="pb-2 font-medium">Time</th>
                     <th className="pb-2 font-medium">Service</th>
+                    <th className="pb-2 font-medium">Model</th>
                     <th className="pb-2 font-medium">Endpoint</th>
+                    <th className="pb-2 font-medium">Listing</th>
                     <th className="pb-2 font-medium text-right">Tokens</th>
                     <th className="pb-2 font-medium text-right">Cost</th>
                     <th className="pb-2 font-medium text-right">Duration</th>
@@ -150,7 +152,13 @@ function DebugPage() {
                           {call.service}
                         </Badge>
                       </td>
+                      <td className="py-2 text-xs text-muted-foreground">
+                        {call.model ?? '—'}
+                      </td>
                       <td className="py-2">{call.endpoint}</td>
+                      <td className="py-2 text-xs text-muted-foreground font-mono">
+                        {call.listingId ? call.listingId.slice(0, 8) : '—'}
+                      </td>
                       <td className="py-2 text-right">
                         {call.totalTokens.toLocaleString()}
                         <span className="ml-1 text-xs text-muted-foreground">

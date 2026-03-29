@@ -6,7 +6,7 @@ eBay listing creation tool powered by AI image analysis.
 - **Framework**: TanStack Start + React 19
 - **UI**: shadcn/ui components (radix-ui primitives, via MCP server)
 - **Database**: PostgreSQL (Docker Compose) + Drizzle ORM
-- **AI**: Google GenAI SDK (Gemini 2.5 Pro)
+- **AI**: Google GenAI SDK (model configured via `GEMINI_MODEL` env var)
 - **Styling**: Tailwind CSS v4
 
 ## Development

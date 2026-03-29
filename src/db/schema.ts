@@ -57,6 +57,7 @@ export const apiUsageLogs = pgTable('api_usage_logs', {
   id: uuid('id').defaultRandom().primaryKey(),
   service: varchar('service', { length: 50 }).notNull(),
   endpoint: varchar('endpoint', { length: 100 }).notNull(),
+  model: varchar('model', { length: 100 }),
   inputTokens: integer('input_tokens').default(0).notNull(),
   outputTokens: integer('output_tokens').default(0).notNull(),
   totalTokens: integer('total_tokens').default(0).notNull(),

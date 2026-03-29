@@ -59,6 +59,12 @@ export const analyzeListing = createServerFn({ method: 'POST' })
         'GEMINI_API_KEY is not configured. Please add it to your .env file.',
       )
     }
+    const geminiModel = process.env.GEMINI_MODEL
+    if (!geminiModel) {
+      throw new Error(
+        'GEMINI_MODEL is not configured. Please add it to your .env file (e.g. gemini-3.1-pro-preview).',
+      )
+    }
 
     const ai = new GoogleGenAI({ apiKey })
 
@@ -83,7 +89,7 @@ export const analyzeListing = createServerFn({ method: 'POST' })
 
     const startTime = Date.now()
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-pro',
+      model: geminiModel,
       contents: [
         {
           role: 'user',
@@ -106,9 +112,11 @@ export const analyzeListing = createServerFn({ method: 'POST' })
     logApiUsage({
       service: 'gemini',
       endpoint: 'analyzeListing',
+      model: geminiModel,
       inputTokens: usage?.promptTokenCount ?? 0,
       outputTokens: usage?.candidatesTokenCount ?? 0,
       durationMs,
+      listingId: data.listingId,
     }).catch(() => {})
 
     const text = response.text ?? ''
@@ -211,6 +219,12 @@ export const analyzeListingForEbay = createServerFn({ method: 'POST' })
         'GEMINI_API_KEY is not configured. Please add it to your .env file.',
       )
     }
+    const geminiModel = process.env.GEMINI_MODEL
+    if (!geminiModel) {
+      throw new Error(
+        'GEMINI_MODEL is not configured. Please add it to your .env file (e.g. gemini-3.1-pro-preview).',
+      )
+    }
 
     const marketplace = (data.marketplace ?? 'EBAY_US') as EbayMarketplaceId
     const currency = EBAY_MARKETPLACES[marketplace]?.currency ?? 'USD'
@@ -238,7 +252,7 @@ export const analyzeListingForEbay = createServerFn({ method: 'POST' })
 
     const startTime = Date.now()
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-pro',
+      model: geminiModel,
       contents: [
         {
           role: 'user',
@@ -261,9 +275,11 @@ export const analyzeListingForEbay = createServerFn({ method: 'POST' })
     logApiUsage({
       service: 'gemini',
       endpoint: 'analyzeListingForEbay',
+      model: geminiModel,
       inputTokens: usage?.promptTokenCount ?? 0,
       outputTokens: usage?.candidatesTokenCount ?? 0,
       durationMs,
+      listingId: data.listingId,
     }).catch(() => {})
 
     const text = response.text ?? ''

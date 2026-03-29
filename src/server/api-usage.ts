@@ -3,12 +3,12 @@ import { db } from '../db'
 import { apiUsageLogs } from '../db/schema'
 import { desc, sql } from 'drizzle-orm'
 
-// Gemini pricing (per million tokens)
-// Prompt < 200K tokens: $2/1M input, $10/1M output
-// Prompt > 200K tokens: $4/1M input, $10/1M output
+// Gemini 3.1 Pro pricing (per million tokens)
+// Prompt < 200K tokens: $2/1M input, $12/1M output
+// Prompt > 200K tokens: $4/1M input, $18/1M output
 function calculateGeminiCostCents(inputTokens: number, outputTokens: number): number {
   const inputRate = inputTokens > 200_000 ? 4 : 2
-  const outputRate = 10
+  const outputRate = inputTokens > 200_000 ? 18 : 12
   const inputCost = (inputTokens / 1_000_000) * inputRate * 100
   const outputCost = (outputTokens / 1_000_000) * outputRate * 100
   return Math.round(inputCost + outputCost)
@@ -17,6 +17,7 @@ function calculateGeminiCostCents(inputTokens: number, outputTokens: number): nu
 export async function logApiUsage(params: {
   service: string
   endpoint: string
+  model?: string
   inputTokens?: number
   outputTokens?: number
   durationMs?: number
@@ -34,6 +35,7 @@ export async function logApiUsage(params: {
   await db.insert(apiUsageLogs).values({
     service: params.service,
     endpoint: params.endpoint,
+    model: params.model ?? null,
     inputTokens,
     outputTokens,
     totalTokens,
