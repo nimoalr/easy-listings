@@ -72,7 +72,11 @@ function ListingDetailPage() {
   const [deleting, setDeleting] = useState(false)
   const [zoomImage, setZoomImage] = useState<{ src: string; alt: string } | null>(null)
   const [ebayAIAnalysis, setEbayAIAnalysis] = useState<EbayAIAnalysis | null>(null)
-  const [aiApplied, setAiApplied] = useState(false)
+  // AI card is hidden if analysis was already run before this page load, or user dismissed it
+  const [aiCardVisible, setAiCardVisible] = useState(false)
+  const [aiLastRanAt, setAiLastRanAt] = useState<Date | null>(
+    listing.status === 'processed' ? new Date(listing.updatedAt) : null,
+  )
 
   const handleFileUpload = useCallback(
     async (fileList: FileList | null) => {
@@ -139,7 +143,6 @@ function ListingDetailPage() {
       return
     }
     setAnalyzing(true)
-    setAiApplied(false)
     try {
       // Use eBay-enhanced analysis if accounts are connected
       const imagePaths = images.map((img) => img.filePath)
@@ -168,6 +171,8 @@ function ListingDetailPage() {
       }
 
       // Results are already saved to DB by the server function
+      setAiCardVisible(true)
+      setAiLastRanAt(new Date())
 
       toast.success(t('toastAIComplete'))
     } catch (err) {
@@ -280,12 +285,21 @@ function ListingDetailPage() {
                   )}
                   {analyzing ? t('analyzing') : t('analyzeWithAI')}
                 </Button>
+                {aiLastRanAt && !aiCardVisible && (aiName || aiDescription) && (
+                  <Button
+                    variant="ghost"
+                    onClick={() => setAiCardVisible(true)}
+                  >
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {t('showAiAnalysis')} ({new Date(aiLastRanAt).toLocaleDateString(locale)})
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
 
-          {/* AI Results — hidden after applying */}
-          {(aiName || aiDescription) && !aiApplied && (
+          {/* AI Results — shown only when explicitly toggled */}
+          {(aiName || aiDescription) && aiCardVisible && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -318,7 +332,7 @@ function ListingDetailPage() {
                     onClick={() => {
                       if (aiName) setName(aiName)
                       if (aiDescription) setDescription(aiDescription)
-                      setAiApplied(true)
+                      setAiCardVisible(false)
                       toast.success(t('toastAIApplied'))
                     }}
                   >
@@ -327,7 +341,7 @@ function ListingDetailPage() {
                   </Button>
                   <Button
                     variant="ghost"
-                    onClick={() => setAiApplied(true)}
+                    onClick={() => setAiCardVisible(false)}
                   >
                     <X className="mr-2 h-4 w-4" />
                     {t('hideAnalysis')}

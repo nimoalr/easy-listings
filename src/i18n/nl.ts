@@ -43,6 +43,7 @@ const nl: Record<keyof typeof en, string> = {
   toastAIApplied: 'AI-suggesties toegepast op advertentie',
   applyToListing: 'Toepassen op advertentie',
   hideAnalysis: 'Verbergen',
+  showAiAnalysis: 'AI-analyse tonen',
   toastImageRemoved: 'Afbeelding verwijderd',
   toastImageUploaded_one: '{{count}} afbeelding geüpload',
   toastImageUploaded_other: '{{count}} afbeeldingen geüpload',

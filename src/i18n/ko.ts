@@ -43,6 +43,7 @@ const ko: Record<keyof typeof en, string> = {
   toastAIApplied: 'AI 제안이 상품에 적용되었습니다',
   applyToListing: '상품에 적용',
   hideAnalysis: '숨기기',
+  showAiAnalysis: 'AI 분석 보기',
   toastImageRemoved: '이미지가 삭제되었습니다',
   toastImageUploaded_one: '이미지 {{count}}개 업로드됨',
   toastImageUploaded_other: '이미지 {{count}}개 업로드됨',

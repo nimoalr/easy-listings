@@ -1,5 +1,12 @@
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useTranslation } from '@/i18n'
 
 const CONDITIONS = [
@@ -29,18 +36,21 @@ export function ConditionSelector({ conditionId, conditionDescription, onChange 
     <div className="space-y-3">
       <div className="grid gap-2">
         <Label>{t('ebayCondition')}</Label>
-        <select
-          className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        <Select
           value={conditionId ?? ''}
-          onChange={(e) => onChange(e.target.value, conditionDescription ?? '')}
+          onValueChange={(val) => onChange(val, conditionDescription ?? '')}
         >
-          <option value="">—</option>
-          {CONDITIONS.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="—" />
+          </SelectTrigger>
+          <SelectContent>
+            {CONDITIONS.map((c) => (
+              <SelectItem key={c.id} value={c.id}>
+                {c.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
       <div className="grid gap-2">
         <Label>{t('conditionDescription')}</Label>

@@ -9,6 +9,13 @@ import {
 } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useTranslation } from '@/i18n'
 import {
   getEbayAccounts,
@@ -121,17 +128,21 @@ function SettingsPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="grid gap-2">
               <Label>{t('marketplace')}</Label>
-              <select
-                className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              <Select
                 value={marketplace}
-                onChange={(e) => setMarketplace(e.target.value as EbayMarketplaceId)}
+                onValueChange={(val) => setMarketplace(val as EbayMarketplaceId)}
               >
-                {Object.entries(EBAY_MARKETPLACES).map(([id, info]) => (
-                  <option key={id} value={id}>
-                    {info.name} ({info.currency})
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(EBAY_MARKETPLACES).map(([id, info]) => (
+                    <SelectItem key={id} value={id}>
+                      {info.name} ({info.currency})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             {isDev && (
               <div className="grid gap-2">

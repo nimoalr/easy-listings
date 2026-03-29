@@ -43,6 +43,7 @@ const zh: Record<keyof typeof en, string> = {
   toastAIApplied: 'AI建议已应用到商品',
   applyToListing: '应用到商品',
   hideAnalysis: '隐藏',
+  showAiAnalysis: '显示AI分析',
   toastImageRemoved: '图片已删除',
   toastImageUploaded_one: '已上传{{count}}张图片',
   toastImageUploaded_other: '已上传{{count}}张图片',

@@ -50,6 +50,7 @@ const fr: Record<keyof typeof en, string> = {
   toastAIApplied: 'Suggestions IA appliquées à l\'annonce',
   applyToListing: 'Appliquer à l\'annonce',
   hideAnalysis: 'Masquer',
+  showAiAnalysis: 'Voir l\'analyse IA',
   toastImageRemoved: 'Image supprimée',
   toastImageUploaded_one: '{{count}} image téléversée',
   toastImageUploaded_other: '{{count}} images téléversées',

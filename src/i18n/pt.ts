@@ -43,6 +43,7 @@ const pt: Record<keyof typeof en, string> = {
   toastAIApplied: 'Sugestões da IA aplicadas ao anúncio',
   applyToListing: 'Aplicar ao anúncio',
   hideAnalysis: 'Ocultar',
+  showAiAnalysis: 'Ver análise IA',
   toastImageRemoved: 'Imagem removida',
   toastImageUploaded_one: '{{count}} imagem enviada',
   toastImageUploaded_other: '{{count}} imagens enviadas',

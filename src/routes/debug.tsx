@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import {
   Card,
   CardContent,
@@ -156,8 +156,16 @@ function DebugPage() {
                         {call.model ?? '—'}
                       </td>
                       <td className="py-2">{call.endpoint}</td>
-                      <td className="py-2 text-xs text-muted-foreground font-mono">
-                        {call.listingId ? call.listingId.slice(0, 8) : '—'}
+                      <td className="py-2 text-xs font-mono">
+                        {call.listingId ? (
+                          <Link
+                            to="/listings/$id"
+                            params={{ id: call.listingId }}
+                            className="text-primary underline underline-offset-2 hover:text-primary/80"
+                          >
+                            {call.listingId.slice(0, 8)}
+                          </Link>
+                        ) : '—'}
                       </td>
                       <td className="py-2 text-right">
                         {call.totalTokens.toLocaleString()}

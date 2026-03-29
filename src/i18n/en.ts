@@ -48,6 +48,7 @@ const en = {
   toastAIApplied: 'AI suggestions applied to listing',
   applyToListing: 'Apply to Listing',
   hideAnalysis: 'Hide',
+  showAiAnalysis: 'Show AI Analysis',
   toastImageRemoved: 'Image removed',
   toastImageUploaded_one: '{{count}} image uploaded',
   toastImageUploaded_other: '{{count}} images uploaded',

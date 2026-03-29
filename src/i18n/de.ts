@@ -50,6 +50,7 @@ const de: Record<keyof typeof en, string> = {
   toastAIApplied: 'KI-Vorschläge auf Anzeige angewendet',
   applyToListing: 'Auf Anzeige anwenden',
   hideAnalysis: 'Ausblenden',
+  showAiAnalysis: 'KI-Analyse anzeigen',
   toastImageRemoved: 'Bild entfernt',
   toastImageUploaded_one: '{{count}} Bild hochgeladen',
   toastImageUploaded_other: '{{count}} Bilder hochgeladen',

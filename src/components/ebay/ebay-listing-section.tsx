@@ -10,6 +10,13 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { useTranslation } from '@/i18n'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { CategoryPicker } from './category-picker'
 import { ConditionSelector } from './condition-selector'
 import { PriceFormatConfig } from './price-format-config'
@@ -222,18 +229,21 @@ export function EbayListingSection({ listingId, accounts, aiAnalysis }: Props) {
         {/* Account selector */}
         <div className="grid gap-2">
           <Label>{t('ebayAccount')}</Label>
-          <select
-            className="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          <Select
             value={data.ebayAccountId ?? ''}
-            onChange={(e) => update({ ebayAccountId: e.target.value || null })}
+            onValueChange={(val) => update({ ebayAccountId: val || null })}
           >
-            <option value="">{t('selectAccount')}</option>
-            {accounts.map((a) => (
-              <option key={a.id} value={a.id}>
-                {a.label}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={t('selectAccount')} />
+            </SelectTrigger>
+            <SelectContent>
+              {accounts.map((a) => (
+                <SelectItem key={a.id} value={a.id}>
+                  {a.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* AI Apply button */}

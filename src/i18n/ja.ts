@@ -43,6 +43,7 @@ const ja: Record<keyof typeof en, string> = {
   toastAIApplied: 'AIの提案を出品に適用しました',
   applyToListing: '出品に適用',
   hideAnalysis: '非表示',
+  showAiAnalysis: 'AI分析を表示',
   toastImageRemoved: '画像を削除しました',
   toastImageUploaded_one: '{{count}}枚の画像をアップロードしました',
   toastImageUploaded_other: '{{count}}枚の画像をアップロードしました',
