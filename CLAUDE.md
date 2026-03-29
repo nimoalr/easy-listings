@@ -13,7 +13,7 @@ eBay listing creation tool powered by AI image analysis.
 
 ```bash
 docker compose up -d          # Start PostgreSQL
-pnpm db:push                  # Apply schema to DB
+pnpm db:migrate               # Run migrations
 pnpm dev                      # Start dev server on :3000
 ```
 
@@ -69,7 +69,7 @@ src/server/
 - Use shadcn/ui components for all UI elements — add new ones via the shadcn MCP server or `pnpm dlx shadcn@latest add <component>`
 - shadcn is configured with `radix-ui` primitives (not `@base-ui/react`) — all components use radix
 - Server functions go in `src/server/` using `createServerFn` from TanStack Start
-- Database schema lives in `src/db/schema.ts`; run `pnpm db:push` after schema changes
+- Database schema lives in `src/db/schema.ts`; run `pnpm db:generate` after schema changes, then `pnpm db:migrate` to apply
 - Images are stored on the local filesystem in `uploads/`
 - Import alias: `@/` and `#/` both map to `src/`
 - i18n: 11 languages supported, translation files in `src/i18n/`, pluralization via `_one`/`_other` key suffixes
