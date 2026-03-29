@@ -11,3 +11,7 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+uploads/
+.pnpm-store
+.claude/settings.local.json
+skills-lock.json

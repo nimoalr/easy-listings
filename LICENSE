@@ -1,0 +1,51 @@
+Easy Listings - Source Available License
+
+Copyright (c) 2026 nimoalr. All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to use
+the Software subject to the following conditions:
+
+1. PERMITTED USES
+
+   You may:
+   (a) View, read, and study the source code.
+   (b) Run the Software locally on your own computer for personal use.
+   (c) Self-host the Software on your own infrastructure for your own
+       personal or internal business use.
+   (d) Modify the Software for your own use, subject to the restrictions below.
+
+2. RESTRICTIONS
+
+   You may NOT:
+   (a) Offer the Software, or any modified version of it, as a hosted service,
+       product, or platform to third parties, whether for free or for a fee.
+   (b) Sell, sublicense, lease, or otherwise commercially distribute the
+       Software or any derivative works.
+   (c) Use the Software, or substantial portions of it, to build or operate
+       a competing product or service.
+   (d) Remove or alter this license notice from any copies of the Software.
+
+3. COMMERCIAL LICENSING
+
+   Any use of the Software not expressly permitted above requires a separate
+   commercial license agreement from the copyright holder. For commercial
+   licensing inquiries, contact the copyright holder via GitHub (@nimoalr).
+
+4. CONTRIBUTIONS
+
+   By submitting a contribution (pull request, patch, or other modification)
+   to this project, you grant the copyright holder a perpetual, worldwide,
+   non-exclusive, royalty-free, irrevocable license to use, reproduce, modify,
+   distribute, and sublicense your contribution as part of the Software under
+   any license terms the copyright holder chooses.
+
+5. DISCLAIMER
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+   OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
