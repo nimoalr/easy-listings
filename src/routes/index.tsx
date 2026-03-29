@@ -1,87 +1,193 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate, useRouter } from '@tanstack/react-router'
+import { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { getListings, createListing } from '@/server/listings'
+import { Plus, Package } from 'lucide-react'
+import { ListingThumbnail } from '@/components/listing-thumbnail'
+import { useTranslation } from '@/i18n'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  loader: async () => {
+    const all = await getListings()
+    // Drafts = everything not published on eBay
+    return all.filter((l) => l.ebayStatus !== 'published')
+  },
+  component: HomePage,
+})
 
-function App() {
+function HomePage() {
+  const listings = Route.useLoaderData()
+  const navigate = useNavigate()
+  const router = useRouter()
+  const { t, locale } = useTranslation()
+  const [open, setOpen] = useState(false)
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+  const [creating, setCreating] = useState(false)
+
+  async function handleCreate() {
+    if (!name.trim()) return
+    setCreating(true)
+    try {
+      const listing = await createListing({ data: { name, description } })
+      setOpen(false)
+      setName('')
+      setDescription('')
+      router.invalidate()
+      navigate({ to: '/listings/$id', params: { id: listing.id } })
+    } finally {
+      setCreating(false)
+    }
+  }
+
   return (
-    <main className="page-wrap px-4 pb-8 pt-14">
-      <section className="island-shell rise-in relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14">
-        <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
-        <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
-        <p className="island-kicker mb-3">TanStack Start Base Template</p>
-        <h1 className="display-title mb-5 max-w-3xl text-4xl leading-[1.02] font-bold tracking-tight text-[var(--sea-ink)] sm:text-6xl">
-          Start simple, ship quickly.
-        </h1>
-        <p className="mb-8 max-w-2xl text-base text-[var(--sea-ink-soft)] sm:text-lg">
-          This base starter intentionally keeps things light: two routes, clean
-          structure, and the essentials you need to build from scratch.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="/about"
-            className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-5 py-2.5 text-sm font-semibold text-[var(--lagoon-deep)] no-underline transition hover:-translate-y-0.5 hover:bg-[rgba(79,184,178,0.24)]"
-          >
-            About This Starter
-          </a>
-          <a
-            href="https://tanstack.com/router"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-5 py-2.5 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:-translate-y-0.5 hover:border-[rgba(23,58,64,0.35)]"
-          >
-            Router Guide
-          </a>
+    <div>
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight">{t('drafts')}</h1>
+          <p className="text-sm text-muted-foreground">
+            {t('myListingsDescription')}
+          </p>
         </div>
-      </section>
+        <Dialog open={open} onOpenChange={setOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              {t('newListing')}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t('createNewListing')}</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name">{t('itemName')}</Label>
+                <Input
+                  id="name"
+                  placeholder={t('itemNamePlaceholder')}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="description">
+                  {t('briefDescription')}
+                </Label>
+                <Textarea
+                  id="description"
+                  placeholder={t('briefDescriptionPlaceholder')}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  rows={3}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button
+                onClick={handleCreate}
+                disabled={!name.trim() || creating}
+              >
+                {creating ? t('creating') : t('createDraft')}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
 
-      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          [
-            'Type-Safe Routing',
-            'Routes and links stay in sync across every page.',
-          ],
-          [
-            'Server Functions',
-            'Call server code from your UI without creating API boilerplate.',
-          ],
-          [
-            'Streaming by Default',
-            'Ship progressively rendered responses for faster experiences.',
-          ],
-          [
-            'Tailwind Native',
-            'Design quickly with utility-first styling and reusable tokens.',
-          ],
-        ].map(([title, desc], index) => (
-          <article
-            key={title}
-            className="island-shell feature-card rise-in rounded-2xl p-5"
-            style={{ animationDelay: `${index * 90 + 80}ms` }}
-          >
-            <h2 className="mb-2 text-base font-semibold text-[var(--sea-ink)]">
-              {title}
-            </h2>
-            <p className="m-0 text-sm text-[var(--sea-ink-soft)]">{desc}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="island-shell mt-8 rounded-2xl p-6">
-        <p className="island-kicker mb-2">Quick Start</p>
-        <ul className="m-0 list-disc space-y-2 pl-5 text-sm text-[var(--sea-ink-soft)]">
-          <li>
-            Edit <code>src/routes/index.tsx</code> to customize the home page.
-          </li>
-          <li>
-            Update <code>src/components/Header.tsx</code> and{' '}
-            <code>src/components/Footer.tsx</code> for brand links.
-          </li>
-          <li>
-            Add routes in <code>src/routes</code> and tweak visual tokens in{' '}
-            <code>src/styles.css</code>.
-          </li>
-        </ul>
-      </section>
-    </main>
+      {listings.length === 0 ? (
+        <Card className="flex flex-col items-center justify-center py-16">
+          <Package className="mb-4 h-12 w-12 text-muted-foreground" />
+          <p className="mb-2 text-lg font-medium">{t('noListingsYet')}</p>
+          <p className="mb-4 text-sm text-muted-foreground">
+            {t('noListingsHint')}
+          </p>
+          <Button onClick={() => setOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            {t('newListing')}
+          </Button>
+        </Card>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {listings.map((listing) => (
+            <Link
+              key={listing.id}
+              to="/listings/$id"
+              params={{ id: listing.id }}
+              className="no-underline"
+            >
+              <Card className="h-full transition-shadow hover:shadow-md">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <CardTitle className="line-clamp-1 text-base">
+                      {listing.aiName || listing.name}
+                    </CardTitle>
+                    <div className="flex gap-1">
+                      {listing.ebayStatus && listing.ebayStatus !== 'not_listed' && (
+                        <Badge
+                          variant={
+                            listing.ebayStatus === 'published'
+                              ? 'default'
+                              : listing.ebayStatus === 'failed'
+                                ? 'destructive'
+                                : 'outline'
+                          }
+                        >
+                          {t(listing.ebayStatus === 'published' ? 'published' : listing.ebayStatus === 'draft' ? 'ebayDraft' : listing.ebayStatus === 'failed' ? 'publishFailed' : 'notListed')}
+                        </Badge>
+                      )}
+                      <Badge
+                        variant={
+                          listing.status === 'processed'
+                            ? 'default'
+                            : 'secondary'
+                        }
+                      >
+                        {t(listing.status === 'processed' ? 'statusProcessed' : 'statusDraft')}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="pb-3">
+                  {listing.images.length > 0 ? (
+                    <ListingThumbnail
+                      src={listing.thumbnailSrc}
+                      alt={listing.name}
+                    />
+                  ) : (
+                    <div className="flex h-32 items-center justify-center rounded-md bg-muted">
+                      <Package className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                  )}
+                </CardContent>
+                <CardFooter className="text-xs text-muted-foreground">
+                  {t('imageCount', { count: listing.images.length })} &middot;{' '}
+                  {new Date(listing.createdAt).toLocaleDateString(locale)}
+                </CardFooter>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
