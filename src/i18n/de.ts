@@ -1,0 +1,149 @@
+import type en from './en'
+
+const de: Record<keyof typeof en, string> = {
+  // Header
+  appName: 'Easy Listings',
+
+  // Home page
+  myListings: 'Meine Anzeigen',
+  myListingsDescription: 'Erstellen und verwalten Sie Ihre eBay-Anzeigenentwürfe',
+  newListing: 'Neue Anzeige',
+  createNewListing: 'Neue Anzeige erstellen',
+  itemName: 'Artikelname',
+  itemNamePlaceholder: 'z.B. Vintage Sony Walkman',
+  briefDescription: 'Kurzbeschreibung (optional)',
+  briefDescriptionPlaceholder: 'Was wissen Sie über diesen Artikel?',
+  createDraft: 'Entwurf erstellen',
+  creating: 'Wird erstellt...',
+  noListingsYet: 'Noch keine Anzeigen',
+  noListingsHint: 'Erstellen Sie Ihre erste Anzeige',
+  imageCount_one: '{{count}} Bild',
+  imageCount_other: '{{count}} Bilder',
+  statusDraft: 'Entwurf',
+  statusProcessed: 'Verarbeitet',
+
+  // Detail page
+  back: 'Zurück',
+  delete: 'Löschen',
+  deleting: 'Wird gelöscht...',
+  itemDetails: 'Artikeldetails',
+  itemNameInputPlaceholder: 'Was ist dieser Artikel?',
+  yourDescription: 'Ihre Beschreibung',
+  yourDescriptionPlaceholder: 'Was wissen Sie über diesen Artikel? Zustand, Marke, Modell usw.',
+  saveDraft: 'Speichern',
+  saving: 'Wird gespeichert...',
+  analyzeWithAI: 'Mit KI analysieren',
+  analyzing: 'Analyse...',
+  aiAnalysis: 'KI-Analyse',
+  suggestedName: 'Vorgeschlagener Name',
+  generatedDescription: 'Generierte Beschreibung',
+  images: 'Bilder ({{count}})',
+  uploading: 'Wird hochgeladen...',
+  uploadHint: 'Bilder hierher ziehen oder klicken zum Hochladen',
+
+  // Toasts
+  toastListingSaved: 'Anzeige gespeichert',
+  toastSaveFailed: 'Fehler beim Speichern',
+  toastUploadFirst: 'Bitte laden Sie zuerst mindestens ein Bild hoch',
+  toastAIComplete: 'KI-Analyse abgeschlossen',
+  toastAIFailed: 'KI-Analyse fehlgeschlagen',
+  toastAIApplied: 'KI-Vorschläge auf Anzeige angewendet',
+  applyToListing: 'Auf Anzeige anwenden',
+  hideAnalysis: 'Ausblenden',
+  toastImageRemoved: 'Bild entfernt',
+  toastImageUploaded_one: '{{count}} Bild hochgeladen',
+  toastImageUploaded_other: '{{count}} Bilder hochgeladen',
+  toastUploadFailed: 'Fehler beim Hochladen der Bilder',
+  toastListingDeleted: 'Anzeige gelöscht',
+  toastDeleteFailed: 'Fehler beim Löschen',
+
+  // Sidebar
+  drafts: 'Entwürfe',
+  publishedListings: 'Veröffentlicht',
+
+  // Language switcher
+  language: 'Sprache',
+  languageEN: 'English',
+  languageFR: 'Français',
+
+  // Settings
+  settings: 'Einstellungen',
+  ebayAccounts: 'eBay-Konten',
+  connectEbay: 'Mit eBay verbinden',
+  connectNewAccount: 'Neues Konto verbinden',
+  disconnectEbay: 'Trennen',
+  marketplace: 'Marktplatz',
+  sandboxMode: 'Sandbox-Modus',
+  sandboxBadge: 'Sandbox',
+  noAccountsConnected: 'Keine eBay-Konten verbunden',
+  noAccountsHint: 'Verbinden Sie Ihr eBay-Konto, um Anzeigen zu veröffentlichen',
+  toastEbayConnected: 'eBay-Konto verbunden',
+  toastEbayDisconnected: 'eBay-Konto getrennt',
+  connecting: 'Verbinden...',
+
+  // eBay listing
+  ebayListing: 'eBay-Anzeige',
+  ebayAccount: 'eBay-Konto',
+  selectAccount: 'Konto auswählen',
+  ebayCategory: 'Kategorie',
+  searchCategories: 'Kategorien suchen...',
+  ebayCondition: 'Zustand',
+  conditionDescription: 'Zustandsbeschreibung',
+  conditionDescriptionPlaceholder: 'Beschreiben Sie den Zustand des Artikels im Detail...',
+  listingFormat: 'Angebotsformat',
+  fixedPrice: 'Festpreis',
+  auction: 'Auktion',
+  price: 'Preis',
+  bestOffer: 'Preisvorschlag',
+  bestOfferEnabled: 'Preisvorschlag zulassen',
+  autoAcceptPrice: 'Automatisch akzeptieren über',
+  minAcceptPrice: 'Automatisch ablehnen unter',
+  startingPrice: 'Startpreis',
+  reservePrice: 'Mindestpreis (optional)',
+  auctionDuration: 'Dauer',
+  auctionDays_one: '{{count}} Tag',
+  auctionDays_other: '{{count}} Tage',
+
+  // Item specifics
+  itemSpecifics: 'Artikelmerkmale',
+  addSpecific: 'Hinzufügen',
+  required: 'Erforderlich',
+  aspectName: 'Name',
+  aspectValue: 'Wert',
+
+  // Business policies
+  fulfillmentPolicy: 'Versandrichtlinie',
+  returnPolicy: 'Rückgaberichtlinie',
+  paymentPolicy: 'Zahlungsrichtlinie',
+  noPoliciesFound: 'Keine Richtlinien gefunden. Erstellen Sie diese im eBay Verkäufer-Cockpit.',
+  businessPolicies: 'Geschäftsrichtlinien',
+
+  // Publish workflow
+  publishStatus: 'Status',
+  notListed: 'Nicht gelistet',
+  ebayDraft: 'Entwurf auf eBay',
+  published: 'Veröffentlicht',
+  publishFailed: 'Veröffentlichung fehlgeschlagen',
+  ended: 'Beendet',
+  createDraftOnEbay: 'Entwurf auf eBay erstellen',
+  publishToEbay: 'Auf eBay veröffentlichen',
+  updateDraft: 'Entwurf aktualisieren',
+  viewOnEbay: 'Auf eBay ansehen',
+  publishing: 'Wird veröffentlicht...',
+  retryPublish: 'Erneut versuchen',
+  toastDraftCreated: 'Entwurf auf eBay erstellt',
+  toastDraftUpdated: 'Entwurf auf eBay aktualisiert',
+  toastPublished: 'Anzeige auf eBay veröffentlicht!',
+  toastPublishFailed: 'Veröffentlichung fehlgeschlagen: {{error}}',
+
+  // AI eBay analysis
+  aiEbayAnalysis: 'KI-eBay-Analyse',
+  suggestedCategory: 'Vorgeschlagene Kategorie',
+  suggestedCondition: 'Vorgeschlagener Zustand',
+  estimatedPrice: 'Geschätzter Preis',
+  formatRecommendation: 'Empfohlenes Format',
+  applyEbayFields: 'eBay-Felder anwenden',
+  toastEbayFieldsApplied: 'eBay-Felder aus KI-Analyse angewendet',
+}
+
+export default de
