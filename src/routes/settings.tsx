@@ -21,7 +21,9 @@ import {
   getEbayAccounts,
   getEbayAuthUrl,
   disconnectEbayAccount,
+  handleEbayCallback,
 } from '@/server/ebay-auth'
+import { Input } from '@/components/ui/input'
 import { EBAY_MARKETPLACES, type EbayMarketplaceId } from '@/server/ebay-constants'
 import { ExternalLink, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -39,6 +41,8 @@ function SettingsPage() {
   const [sandbox, setSandbox] = useState(isDev)
   const [connecting, setConnecting] = useState(false)
   const [disconnecting, setDisconnecting] = useState<string | null>(null)
+  const [manualCode, setManualCode] = useState('')
+  const [exchanging, setExchanging] = useState(false)
 
   async function handleConnect() {
     setConnecting(true)
@@ -46,10 +50,35 @@ function SettingsPage() {
       const { authUrl } = await getEbayAuthUrl({
         data: { marketplace, sandbox },
       })
-      window.location.href = authUrl
+      window.open(authUrl, '_blank')
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to connect')
       setConnecting(false)
+    }
+  }
+
+  async function handleManualCodeExchange() {
+    if (!manualCode.trim()) return
+    setExchanging(true)
+    try {
+      // Extract code from full URL or use raw code
+      let code = manualCode.trim()
+      try {
+        const url = new URL(code)
+        code = url.searchParams.get('code') ?? code
+      } catch {
+        // Not a URL, use as-is
+      }
+
+      const state = JSON.stringify({ marketplace, sandbox })
+      await handleEbayCallback({ data: { code, state } })
+      toast.success(t('toastEbayConnected'))
+      setManualCode('')
+      window.location.reload()
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Token exchange failed')
+    } finally {
+      setExchanging(false)
     }
   }
 
@@ -163,6 +192,27 @@ function SettingsPage() {
             <ExternalLink className="mr-2 h-4 w-4" />
             {connecting ? t('connecting') : t('connectEbay')}
           </Button>
+
+          {/* Manual code exchange — for when redirect URLs aren't configured */}
+          <div className="mt-4 border-t pt-4">
+            <p className="mb-2 text-sm text-muted-foreground">
+              After authorizing on eBay, paste the full redirect URL or the code here:
+            </p>
+            <div className="flex gap-2">
+              <Input
+                placeholder="Paste URL or code from eBay..."
+                value={manualCode}
+                onChange={(e) => setManualCode(e.target.value)}
+                className="flex-1"
+              />
+              <Button
+                onClick={handleManualCodeExchange}
+                disabled={exchanging || !manualCode.trim()}
+              >
+                {exchanging ? t('connecting') : 'Exchange'}
+              </Button>
+            </div>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -19,7 +19,10 @@ export const getEbayAuthUrl = createServerFn({ method: 'POST' })
       sandbox: data.sandbox,
     })
 
-    const authUrl = client.OAuth2.generateAuthUrl(state)
+    // generateAuthUrl() with no args uses the ruName from config as redirect_uri
+    // We append state manually to the URL
+    const baseUrl = client.OAuth2.generateAuthUrl()
+    const authUrl = baseUrl.replace('state=', `state=${encodeURIComponent(state)}`)
     return { authUrl }
   })
 
